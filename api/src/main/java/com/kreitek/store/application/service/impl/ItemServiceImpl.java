@@ -23,6 +23,12 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    public List<ItemDTO> getAllItems() {
+        List<Item> items = this.persistence.getAllItems();
+        return this.mapper.toDto(items);
+    }
+
+    @Override
     public List<ItemDTO> getAllItemsByCategory(Long categoryId) {
         List<Item> items = this.persistence.getAllItemsByCategory(categoryId);
         return this.mapper.toDto(items);

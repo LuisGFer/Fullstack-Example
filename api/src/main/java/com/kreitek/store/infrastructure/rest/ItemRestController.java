@@ -20,6 +20,13 @@ public class ItemRestController {
     }
 
     @CrossOrigin
+    @GetMapping(value = "/items", produces = "application/json")
+    ResponseEntity<List<ItemDTO>> getAllItems() {
+        List<ItemDTO> items = this.itemService.getAllItems();
+        return new ResponseEntity<>(items, HttpStatus.OK);
+    }
+
+    @CrossOrigin
     @GetMapping(value = "/categories/{idCategory}/items", produces = "application/json")
     ResponseEntity<List<ItemDTO>> getAllItemsFromCategory(@PathVariable Long idCategory) {
         List<ItemDTO> items = this.itemService.getAllItemsByCategory(idCategory);
