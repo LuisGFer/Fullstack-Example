@@ -7,7 +7,8 @@ import { HomeComponent } from './home/home.component';
 const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
   { path: 'categories', component: CategoryListComponent },
-  { path: 'items', component: ItemListComponent }
+  { path: 'items', component: ItemListComponent },
+  { path: 'categories/:categoryId/items', component: ItemListComponent }
 ];
 
 @NgModule({

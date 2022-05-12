@@ -17,7 +17,9 @@
                 {{ category.name }}
             </td>
             <td>
-                <button id="btnNavToCategoryItems">Articulos</button>
+                <a [routerLink]="['/categories', category.id, 'items']">
+                    <button id="btnNavToCategoryItems">Articulos</button>
+                </a>
                 <button id="btnEditCategory">Editar</button>
                 <button id="btnDeleteCategory">Eliminar</button>
             </td>
