@@ -2,7 +2,11 @@ package com.kreitek.store.infrastructure.persistence;
 
 import com.kreitek.store.domain.entity.Item;
 import com.kreitek.store.domain.persistence.ItemPersistence;
+import com.kreitek.store.infrastructure.specs.ItemSpecification;
+import com.kreitek.store.infrastructure.specs.shared.SearchCriteriaHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -20,6 +24,12 @@ public class ItemPersistenceImpl implements ItemPersistence {
     @Override
     public List<Item> getAllItems() {
         return this.itemRepository.findAll();
+    }
+
+    @Override
+    public Page<Item> findAll(Pageable pageable, String filters) {
+        ItemSpecification specification = new ItemSpecification(SearchCriteriaHelper.fromFilterString(filters));
+        return this.itemRepository.findAll(specification, pageable);
     }
 
     @Override

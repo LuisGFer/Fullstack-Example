@@ -6,6 +6,8 @@ import com.kreitek.store.application.service.ItemService;
 import com.kreitek.store.domain.entity.Item;
 import com.kreitek.store.domain.persistence.ItemPersistence;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +22,12 @@ public class ItemServiceImpl implements ItemService {
     public ItemServiceImpl(ItemPersistence persistence, ItemMapper mapper) {
         this.persistence = persistence;
         this.mapper = mapper;
+    }
+
+    @Override
+    public List<ItemDTO> getItemsByCriteriaStringPaged(Pageable pageable, String filter) {
+        Page<Item> itemPage = this.persistence.findAll(pageable, filter);
+        return this.mapper.toDto(itemPage.getContent());
     }
 
     @Override
