@@ -33,11 +33,12 @@ export class ItemListComponent implements OnInit {
     if (this.route.snapshot.paramMap.get("categoryId")) {
         this.categoryId = +this.route.snapshot.paramMap.get("categoryId")!;
         this.title = "Artículos de la categoría " + this.categoryId;
-        this.getAllItemsInCategory(this.categoryId);
-      } else {
+      }
+    else {
         this.title = "Lista de artículos";
-        this.getAllItems();
     }
+
+    this.getAllItems();
   }
 
   public nextPage():void {
@@ -56,6 +57,10 @@ export class ItemListComponent implements OnInit {
 
   private buildFilters():string|undefined {
     const filters: string[] = [];
+
+    if (this.categoryId) {
+      filters.push("category.id:EQUAL:" + this.categoryId);
+    }
 
     if(this.nameFilter) {
       filters.push("name:MATCH:" + this.nameFilter);
@@ -95,18 +100,6 @@ export class ItemListComponent implements OnInit {
     })
   }
 
-  private getAllItemsInCategory(categoryId: number): void {
-    this.itemService.getAllItemsByCategoryId(categoryId, this.page, this.size, this.sort).subscribe({
-      next: (data: any) => {
-        this.items = data.content; 
-        this.first = data.first;
-        this.last = data.last;
-        this.totalPages = data.totalPages;
-        this.totalElements = data.totalElements;
-      },
-      error: (err) => {this.handleError(err);}
-    })
-  }
 
   private handleError(error: any) {
     // lo que queramos
