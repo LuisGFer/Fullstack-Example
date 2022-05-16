@@ -14,7 +14,7 @@ export class ItemListComponent implements OnInit {
   items: Item[] = [];
 
   page: number = 0;
-  size: number = 1;
+  size: number = 25;
   sort: string = "name,asc";
 
   first: boolean = false;
@@ -60,8 +60,14 @@ export class ItemListComponent implements OnInit {
   }
 
   private getAllItemsInCategory(categoryId: number): void {
-    this.itemService.getAllItemsByCategoryId(categoryId).subscribe({
-      next: (itemsRequest) => {this.items = itemsRequest; },
+    this.itemService.getAllItemsByCategoryId(categoryId, this.page, this.size, this.sort).subscribe({
+      next: (data: any) => {
+        this.items = data.content; 
+        this.first = data.first;
+        this.last = data.last;
+        this.totalPages = data.totalPages;
+        this.totalElements = data.totalElements;
+      },
       error: (err) => {this.handleError(err);}
     })
   }
