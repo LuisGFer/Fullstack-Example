@@ -16,6 +16,8 @@ public  class SearchCriteriaHelper {
         List<SearchCriteria> criterias = new ArrayList<>();
         int i;
 
+        if (filter == null) { return criterias; }
+
         String[] filterSegments = filter.split(SEGMENTS_DIVISOR);
 
         for (i = 0; i < filterSegments.length; i++) {

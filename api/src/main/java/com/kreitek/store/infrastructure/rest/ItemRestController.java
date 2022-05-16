@@ -39,10 +39,10 @@ public class ItemRestController {
 
     @CrossOrigin
     @GetMapping(value = "/items", produces = "application/json")
-    public ResponseEntity<List<ItemDTO>> getItemsByCriteriaPaged(@RequestParam(value = "filter") String filter, Pageable pageable) {
+    public ResponseEntity<Page<ItemDTO>> getItemsByCriteriaPaged(@RequestParam(value = "filter", required = false) String filter, Pageable pageable) {
 
-        List<ItemDTO> items = this.itemService.getItemsByCriteriaStringPaged(pageable, filter);
-        return new ResponseEntity<List<ItemDTO>>(items, HttpStatus.OK);
+        Page<ItemDTO> items = this.itemService.getItemsByCriteriaStringPaged(pageable, filter);
+        return new ResponseEntity<Page<ItemDTO>>(items, HttpStatus.OK);
     }
 
     @CrossOrigin
