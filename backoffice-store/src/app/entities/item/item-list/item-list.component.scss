@@ -77,12 +77,18 @@ table {
 
 
 .containerFiltros {
+
     width: 85%;
     margin: 0 auto;
     background-color: whitesmoke;
     padding: 20px;
     border-radius: 10px;
     margin-bottom: 20px;
+    margin-top: 25px;
+
+    #btnSearch {
+        margin-top: 25px;
+    }
 }
 
 .containerFiltros h1 {
