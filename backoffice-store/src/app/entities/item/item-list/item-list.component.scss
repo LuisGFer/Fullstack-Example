@@ -77,7 +77,7 @@ table {
 
 
 .containerFiltros {
-
+    margin-top: 25px;
     width: 85%;
     margin: 0 auto;
     background-color: whitesmoke;
@@ -86,19 +86,34 @@ table {
     margin-bottom: 20px;
     margin-top: 25px;
 
+    form {
+        padding-top: 30px;
+
+        label {
+            display: block;
+        }
+
+        input[type=text],input[type=number] {
+            width: 100%;
+        }
+    }
+
+
+    #filterTitle {
+        font-size: 14pt;
+        background: black;
+        color: white;
+        width: 200px;
+        padding-left: 20px;
+        border-radius: 8px;
+        margin-top: -33px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
     #btnSearch {
-        margin-top: 25px;
+        margin-top: 20px;
     }
 }
 
-.containerFiltros h1 {
-    font-size: 14pt;
-    background: black;
-    color: white;
-    width: 200px;
-    padding-left: 20px;
-    border-radius: 8px;
-    margin-top: -33px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-}
+
