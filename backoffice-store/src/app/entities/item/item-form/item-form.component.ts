@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { throwError } from 'rxjs';
 import { Category } from '../../category/model/category.model';
 import { CategoryService } from '../../category/service/category.service';
 import { Item } from '../model/item.model';
@@ -32,7 +33,7 @@ export class ItemFormComponent implements OnInit {
       this.mode = "NEW";
       this.initializeItem();
     }
-    //this.getAllCategories();
+    
   }
 
   public getAllCategories(event?: any): void {
@@ -66,7 +67,55 @@ export class ItemFormComponent implements OnInit {
     this.item!.categoryName = undefined;
   }
 
+  public includeImageInItem(event: any): void {
+    const inputFile = event.target as HTMLInputElement;
+    const file: File | null = inputFile.files?.item(0) ?? null;
 
+
+    this.readFileAsString(file!).then(
+      (result) => {
+        const imageType: string = this.getImageType(result);
+        console.log(imageType);
+        const imageBase64: string = this.getImageBase64(result);
+        console.log(imageBase64);
+
+        this.item!.image = imageBase64;
+
+      },
+      (error) => {
+        console.log("No se pudo cargar la imagen")
+      })
+        
+  }
+
+  private getImageType(imageString: string): string {
+    const imageStringParts: string[] = imageString.split(",");
+    if (imageStringParts.length == 2) {
+      return imageStringParts[0];
+    } else {
+      return "";
+    }
+  }
+
+  private getImageBase64(imageString: string): string {
+    const imageStringParts: string[] = imageString.split(",");
+    if (imageStringParts.length == 2) {
+      return imageStringParts[1];
+    } else {
+      return "";
+    }
+  }
+
+
+  private readFileAsString(file: File) {
+    return new Promise<string>(function(resolve, reject) {
+      let reader: FileReader = new FileReader();
+      reader.readAsDataURL(file)
+      reader.onload = function() {
+        resolve(this.result as string)
+      }
+    })
+  }
 
   private insertItem(): void {
       this.itemService.insert(this.item!).subscribe({
