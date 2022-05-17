@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
@@ -14,6 +15,8 @@ import { ItemListComponent } from './entities/item/item-list/item-list.component
 import { ItemFormComponent } from './entities/item/item-form/item-form.component';
 import { HttpRequestIntercept } from './config/interceptors/http-request-interceptor.inteceptor';
 
+import {AutoCompleteModule} from 'primeng/autocomplete';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,9 +30,11 @@ import { HttpRequestIntercept } from './config/interceptors/http-request-interce
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    AutoCompleteModule
   ],
   providers: [
     {

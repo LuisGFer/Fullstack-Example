@@ -13,15 +13,18 @@
     <!-- Categoria Id -->
     <div class="form-group">
         <label for="categoryId">Categoria</label>
-        <input type="number" [(ngModel)]="item.categoryId" name="categoryId" class="form-control" id="categoryId" #categoryId="ngModel" required>
+        <p-autoComplete [(ngModel)]="selectedCategory" name="selectedCategory" [suggestions]="categories" 
+        (completeMethod)="getAllCategories($event)" field="name" 
+        (onSelect)="categorySelected();" (onClear)="categoryUnselected();" [required]="true" [forceSelection]="true"></p-autoComplete>
     </div>
-    <!-- Validación price -->
-    <div *ngIf="(categoryId.dirty && categoryId.errors)">
-        <small class="form-text text-danger"
-        *ngIf="categoryId.errors['required']">
-        Este campo es requerido
-        </small>
-    </div>
+
+    <pre>
+        {{ selectedCategory | json }}
+    </pre>
+
+    <pre>
+        {{ item | json }}
+    </pre>
 
     <!-- Nombre -->
     <div class="form-group">

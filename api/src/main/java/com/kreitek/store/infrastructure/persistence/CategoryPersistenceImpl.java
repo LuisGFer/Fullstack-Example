@@ -37,4 +37,9 @@ public class CategoryPersistenceImpl implements CategoryPersistence {
     public void deleteCategory(Long categoryId) {
         this.categoryRepository.deleteById(categoryId);
     }
+
+    @Override
+    public List<Category> getCategoriesByName(String partialName) {
+        return this.categoryRepository.findByNameContainsIgnoreCase(partialName);
+    }
 }

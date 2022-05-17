@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Category } from '../../category/model/category.model';
+import { CategoryService } from '../../category/service/category.service';
 import { Item } from '../model/item.model';
 import { ItemService } from '../service/item.service';
 
@@ -12,9 +14,12 @@ export class ItemFormComponent implements OnInit {
   mode: "NEW" | "UPDATE" = "NEW";
   itemId?: number;
   item?: Item;
+  selectedCategory?: Category;
+  categories: Category[] = [];
 
   constructor(private route: ActivatedRoute,
-              private itemService: ItemService) { }
+              private itemService: ItemService,
+              private categoryService: CategoryService) { }
 
   ngOnInit(): void {
 
@@ -27,6 +32,18 @@ export class ItemFormComponent implements OnInit {
       this.mode = "NEW";
       this.initializeItem();
     }
+    //this.getAllCategories();
+  }
+
+  public getAllCategories(event?: any): void {
+    let categorySearch: string | undefined;
+    if (event?.query) {
+      categorySearch = event.query;
+    }
+    this.categoryService.getAllCategories(categorySearch).subscribe({
+      next: (categoriesFiltered) => { this.categories = categoriesFiltered; },
+      error: (err) => {this.handleError(err);}
+    })
   }
 
   public saveItem(): void {
@@ -38,6 +55,18 @@ export class ItemFormComponent implements OnInit {
       this.updateItem();
     }
   }
+
+  public categorySelected(): void {
+    this.item!.categoryId = this.selectedCategory!.id;
+    this.item!.categoryName = this.selectedCategory!.name;
+  }
+
+  public categoryUnselected(): void {
+    this.item!.categoryId = undefined;
+    this.item!.categoryName = undefined;
+  }
+
+
 
   private insertItem(): void {
       this.itemService.insert(this.item!).subscribe({
@@ -61,7 +90,10 @@ export class ItemFormComponent implements OnInit {
 
   private getItemById(itemId: number) {
     this.itemService.getItemById(itemId).subscribe({
-      next: (itemRequest) => {this.item = itemRequest},
+      next: (itemRequest) => {
+        this.item = itemRequest;
+        this.selectedCategory = new Category(itemRequest.categoryId!, itemRequest.categoryName!);
+      },
       error: (err) => {this.handleError(err);}
     })
   }
