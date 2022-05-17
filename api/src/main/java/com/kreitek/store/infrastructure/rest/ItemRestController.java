@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class ItemRestController {
@@ -53,9 +54,28 @@ public class ItemRestController {
     }
 
     @CrossOrigin
+    @PatchMapping(value = "/items", produces = "application/json", consumes = "application/json")
+    ResponseEntity<ItemDTO> updateItem(@RequestBody ItemDTO itemDTO) {
+        ItemDTO itemUpdated = this.itemService.saveItem(itemDTO);
+        return new ResponseEntity<>(itemUpdated, HttpStatus.OK);
+    }
+
+    @CrossOrigin
     @DeleteMapping(value = "/items/{itemId}")
     ResponseEntity<?> deleteItemById(@PathVariable Long itemId) {
         this.itemService.deleteItem(itemId);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @GetMapping(value = "/items/{itemId}")
+    ResponseEntity<ItemDTO> getItemById(@PathVariable Long itemId) {
+        Optional<ItemDTO> item = this.itemService.getItemById(itemId);
+
+        if (item.isPresent()) {
+            return new ResponseEntity<>(item.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }
